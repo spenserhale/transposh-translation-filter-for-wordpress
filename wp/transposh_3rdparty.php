@@ -220,12 +220,12 @@ class transposh_3rdparty {
      * @param GoogleSitemapGeneratorPage $sm_page Object containing the page information
      */
     function add_sm_transposh_urls($sm_page) {
-        tp_logger("in sitemap add url: " . $sm_page->GetUrl() . " " . $sm_page->GetPriority(), 4);
+        tp_logger("in sitemap add url: " . $sm_page->get_url() . " " . $sm_page->get_priority(), 4);
         $sm_page = clone $sm_page;
         // we need the generator object (we know it must exist...)
         $generatorObject = &GoogleSitemapGenerator::GetInstance();
         // we reduce the priorty by 0.2, but not below zero
-        $sm_page->SetProprity(max($sm_page->GetPriority() - 0.2, 0));
+        $sm_page->SetProprity(max($sm_page->get_priority() - 0.2, 0));
 
         /* <xhtml:link 
           rel="alternate"
@@ -233,7 +233,7 @@ class transposh_3rdparty {
           href="http://www.example.com/de" /> */
 
         $viewable_langs = explode(',', $this->transposh->options->viewable_languages);
-        $orig_url = $sm_page->GetUrl();
+        $orig_url = $sm_page->get_url();
         foreach ($viewable_langs as $lang) {
             if (!$this->transposh->options->is_default_language($lang)) {
                 $newloc = $orig_url;
@@ -241,7 +241,7 @@ class transposh_3rdparty {
                     $newloc = transposh_utils::translate_url($newloc, $this->transposh->home_url, $lang, array(&$this->transposh->database, 'fetch_translation'));
                 }
                 $newloc = transposh_utils::rewrite_url_lang_param($newloc, $this->transposh->home_url, $this->transposh->enable_permalinks_rewrite, $lang, false);
-                $sm_page->SetUrl($newloc);
+                $sm_page->set_url($newloc);
                 $generatorObject->AddElement($sm_page);
             }
         }
