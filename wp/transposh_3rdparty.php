@@ -223,9 +223,9 @@ class transposh_3rdparty {
         tp_logger("in sitemap add url: " . $sm_page->get_url() . " " . $sm_page->get_priority(), 4);
         $sm_page = clone $sm_page;
         // we need the generator object (we know it must exist...)
-        $generatorObject = &GoogleSitemapGenerator::GetInstance();
+        $generatorObject = GoogleSitemapGenerator::get_instance();
         // we reduce the priorty by 0.2, but not below zero
-        $sm_page->SetProprity(max($sm_page->get_priority() - 0.2, 0));
+        $sm_page->set_priority(max($sm_page->get_priority() - 0.2, 0));
 
         /* <xhtml:link 
           rel="alternate"
@@ -242,7 +242,7 @@ class transposh_3rdparty {
                 }
                 $newloc = transposh_utils::rewrite_url_lang_param($newloc, $this->transposh->home_url, $this->transposh->enable_permalinks_rewrite, $lang, false);
                 $sm_page->set_url($newloc);
-                $generatorObject->AddElement($sm_page);
+                $generatorObject->add_element($sm_page);
             }
         }
     }
